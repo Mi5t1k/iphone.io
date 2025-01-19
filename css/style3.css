@@ -1,0 +1,419 @@
+/* Загальні стилі для кошика */
+
+.color-list1 {
+    display: flex;
+    justify-content: space-between;
+    /* Встановлює рівну відстань між елементами */
+    flex-wrap: wrap;
+    margin-left: 320px;
+    /* Відступ зліва */
+    gap: 41px;
+    /* Відстань між елементами по вертикалі та горизонталі */
+}
+
+.color-item1 {
+    text-align: center;
+    width: 30%;
+    /* Ширина кожного елемента */
+    margin-bottom: 40px;
+    /* Збільшено відступ між елементами по вертикалі */
+}
+
+.color-item1 img {
+    width: 100%;
+    height: auto;
+    max-width: 200px;
+    /* Максимальна ширина для зображень */
+}
+
+
+/* Стилі для модального вікна */
+
+.container1 {
+    width: 80%;
+    /* Зменшуємо ширину контейнера */
+}
+
+#cart {
+    display: none;
+    /* Спочатку вікно приховане */
+    position: fixed;
+    top: 20%;
+    right: 10%;
+    width: 300px;
+    background-color: white;
+    border: 2px solid #ccc;
+    padding: 20px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    border-radius: 15px;
+    /* Заокруглені кути */
+}
+
+#cart h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    text-align: center;
+    /* Центруємо текст */
+}
+
+#cart-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+#cart-items li {
+    padding: 5px 0;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+}
+
+#cart-items img {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+
+.clear-cart {
+    display: block;
+    margin-top: 15px;
+    padding: 10px;
+    background-color: red;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 15px;
+    /* Заокруглені кути */
+    width: 100%;
+    /* Ширина кнопки займає всю ширину */
+    text-align: center;
+    /* Центруємо текст на кнопці */
+}
+
+
+/* Для затемнення фону */
+
+.overlay {
+    display: none;
+    /* Спочатку не видно */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+
+/* Стилі для кнопки кошика */
+
+.cart-button {
+    position: fixed;
+    top: 20px;
+    /* Відступ від верхнього краю */
+    right: 20px;
+    /* Відступ від правого краю */
+    z-index: 1000;
+    /* Щоб кнопка була поверх інших елементів */
+}
+
+.cart-button button {
+    padding: 10px 20px;
+    background-color: #0a0a0a;
+    /* Зелений колір для кнопки */
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 15px;
+    /* Заокруглені кути */
+    font-size: 16px;
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.cart-button button:hover {
+    background-color: #434343;
+    /* Трохи темніший відтінок при наведенні */
+}
+
+
+/* Стилі для кнопок "Kup za" */
+
+.add-to-cart {
+    padding: 12px 25px;
+    background-color: #0a0a0a;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 25px;
+    /* Заокруглені кути */
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+    /* Зміщення кнопки вниз */
+}
+
+.add-to-cart:hover {
+    background-color: #434343;
+}
+
+
+/* Стилі для заголовка "WYBIERZ SWÓJ KOLOR" */
+
+.color-title {
+    font-size: 24px;
+    text-align: center;
+    margin-top: 40px;
+    /* Відстань від верхнього краю, щоб заголовок був нижче */
+    font-weight: bold;
+}
+
+
+/* Стилі для повідомлення "Dziękujemy za zamówienie" */
+
+.thank-you-message {
+    display: none;
+    /* Спочатку прихований */
+    padding: 15px 30px;
+    background-color: #434343;
+    color: white;
+    font-size: 20px;
+    text-align: center;
+    border-radius: 25px;
+    /* Заокруглені кути */
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999;
+    transition: opacity 0.3s ease-in-out;
+}
+
+
+/* Клас для показу повідомлення */
+
+.show-thank-you {
+    display: block;
+    opacity: 1;
+}
+
+.footer {
+    background-color: #0a0a0a;
+    justify-content: space-between;
+    padding: 20px 0;
+}
+
+.footer-link {
+    flex-basis: 0;
+    flex-grow: 1;
+    color: #717171;
+}
+
+.footer-inner {
+    color: #717171;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 0;
+}
+
+.phone:hover {
+    color: #0a0a0a;
+}
+
+.logo-img {
+    width: 60px;
+    /* Підлаштовуйте під розмір вашого логотипа */
+}
+
+.scroll-to-top {
+    position: fixed;
+    /* Фіксоване розташування */
+    bottom: 20px;
+    /* Відступ від нижнього краю */
+    right: 20px;
+    /* Відступ від правого краю */
+    width: 50px;
+    /* Ширина кнопки */
+    height: 50px;
+    /* Висота кнопки */
+    background-color: #fff;
+    /* Колір фону */
+    color: #fff;
+    /* Колір тексту */
+    border: none;
+    /* Прибираємо рамку */
+    border-radius: 50%;
+    /* Робимо кнопку круглою */
+    cursor: pointer;
+    /* Курсор у вигляді руки */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Тінь */
+    display: none;
+    /* Спочатку приховуємо кнопку */
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    /* Розмір іконки */
+    z-index: 1000;
+    /* Кнопка буде над іншими елементами */
+}
+
+.scroll-to-top:hover {
+    background-color: #2980b9;
+    /* Темніший колір при наведенні */
+}
+
+.info-box {
+    display: none;
+    position: absolute;
+    bottom: -40px;
+    /* Початкове положення за межами елемента */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    width: 200px;
+    opacity: 0;
+    transition: bottom 0.3s ease, opacity 0.3s ease;
+    /* Плавне з'явлення */
+    font-size: 14px;
+    text-align: center;
+}
+
+
+/* Коли елемент під кнопкою буде активуватися */
+
+.color-item:hover .info-box {
+    display: block;
+    bottom: 40px;
+    /* Позиціюємо блок вище, коли він з'являється */
+    opacity: 1;
+    /* Повна видимість */
+}
+
+
+/* Кнопка "Kup za ..." */
+
+.add-to-cart {
+    padding: 12px 25px;
+    background-color: #0a0a0a;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 25px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.add-to-cart:hover {
+    background-color: #434343;
+}
+
+.conta {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+#cart {
+    display: none;
+    position: fixed;
+    top: 20%;
+    right: 10%;
+    width: 300px;
+    background-color: white;
+    border: 2px solid #ccc;
+    padding: 20px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    border-radius: 15px;
+    /* Заокруглені кути */
+}
+
+#cart h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    text-align: center;
+    /* Центруємо текст */
+}
+
+#cart-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+#cart-items li {
+    padding: 5px 0;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+}
+
+#cart-items img {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+
+.clear-cart {
+    display: block;
+    margin-top: 15px;
+    padding: 10px;
+    background-color: red;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 15px;
+    /* Заокруглені кути */
+    width: 100%;
+    /* Ширина кнопки займає всю ширину */
+    text-align: center;
+    /* Центруємо текст на кнопці */
+}
+
+
+/* Для затемнення фону */
+
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+
+/* Заокруглення кнопки кошика */
+
+.cart-button button {
+    padding: 10px;
+    background-color: #4CAF50;
+    /* Зелений колір кнопки */
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 15px;
+    /* Заокруглені кути */
+    font-size: 16px;
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.cart-button button:hover {
+    background-color: #45a049;
+    /* Трохи темніший відтінок при наведенні */
+}
