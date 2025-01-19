@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Potwierdzenie Zamówienia</title>
+
+    <style>
+        .color-list1 {
+            display: flex;
+            justify-content: space-between;
+            /* Встановлює рівну відстань між елементами */
+            flex-wrap: wrap;
+            margin-left: 320px;
+            /* Відступ зліва */
+            gap: 41px;
+            /* Відстань між елементами по вертикалі та горизонталі */
+        }
+        
+        .color-item1 {
+            text-align: center;
+            width: 30%;
+            /* Ширина кожного елемента */
+            margin-bottom: 40px;
+            /* Збільшено відступ між елементами по вертикалі */
+        }
+        
+        .color-item1 img {
+            width: 100%;
+            height: auto;
+            max-width: 200px;
+            /* Максимальна ширина для зображень */
+        }
+        /* Стилі для модального вікна */
+        
+        .container1 {
+            width: 80%;
+            /* Зменшуємо ширину контейнера */
+        }
+        
+        #cart {
+            display: none;
+            /* Спочатку вікно приховане */
+            position: fixed;
+            top: 20%;
+            right: 10%;
+            width: 300px;
+            background-color: white;
+            border: 2px solid #ccc;
+            padding: 20px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            border-radius: 15px;
+            /* Заокруглені кути */
+        }
+        
+        #cart h2 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            text-align: center;
+            /* Центруємо текст */
+        }
+        
+        #cart-items {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        #cart-items li {
+            padding: 5px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+        
+        #cart-items img {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+        }
+        
+        .clear-cart {
+            display: block;
+            margin-top: 15px;
+            padding: 10px;
+            background-color: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 15px;
+            /* Заокруглені кути */
+            width: 100%;
+            /* Ширина кнопки займає всю ширину */
+            text-align: center;
+            /* Центруємо текст на кнопці */
+        }
+        /* Для затемнення фону */
+        
+        .overlay {
+            display: none;
+            /* Спочатку не видно */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+        /* Стилі для кнопки кошика */
+        
+        .cart-button {
+            position: fixed;
+            top: 20px;
+            /* Відступ від верхнього краю */
+            right: 20px;
+            /* Відступ від правого краю */
+            z-index: 1000;
+            /* Щоб кнопка була поверх інших елементів */
+        }
+        
+        .cart-button button {
+            padding: 10px 20px;
+            background-color: #0a0a0a;
+            /* Зелений колір для кнопки */
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 15px;
+            /* Заокруглені кути */
+            font-size: 16px;
+            display: inline-block;
+            margin-left: 10px;
+        }
+        
+        .cart-button button:hover {
+            background-color: #434343;
+            /* Трохи темніший відтінок при наведенні */
+        }
+        /* Стилі для кнопок "Kup za" */
+        
+        .add-to-cart {
+            padding: 12px 25px;
+            background-color: #0a0a0a;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 25px;
+            /* Заокруглені кути */
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+            /* Зміщення кнопки вниз */
+        }
+        
+        .add-to-cart:hover {
+            background-color: #434343;
+        }
+        /* Стилі для заголовка "WYBIERZ SWÓJ KOLOR" */
+        
+        .color-title {
+            font-size: 24px;
+            text-align: center;
+            margin-top: 40px;
+            /* Відстань від верхнього краю, щоб заголовок був нижче */
+            font-weight: bold;
+        }
+        /* Стилі для повідомлення "Dziękujemy za zamówienie" */
+        
+        .thank-you-message {
+            display: none;
+            /* Спочатку прихований */
+            padding: 15px 30px;
+            background-color: #434343;
+            color: white;
+            font-size: 20px;
+            text-align: center;
+            border-radius: 25px;
+            /* Заокруглені кути */
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 999;
+            transition: opacity 0.3s ease-in-out;
+        }
+        /* Клас для показу повідомлення */
+        
+        .show-thank-you {
+            display: block;
+            opacity: 1;
+        }
+        
+        .footer {
+            background-color: #0a0a0a;
+            justify-content: space-between;
+            padding: 20px 0;
+        }
+        
+        .footer-link {
+            flex-basis: 0;
+            flex-grow: 1;
+            color: #717171;
+        }
+        
+        .footer-inner {
+            color: #717171;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 0;
+        }
+        
+        .phone:hover {
+            color: #0a0a0a;
+        }
+        
+        .logo-img {
+            width: 60px;
+            /* Підлаштовуйте під розмір вашого логотипа */
+        }
+        
+        .scroll-to-top {
+            position: fixed;
+            /* Фіксоване розташування */
+            bottom: 20px;
+            /* Відступ від нижнього краю */
+            right: 20px;
+            /* Відступ від правого краю */
+            width: 50px;
+            /* Ширина кнопки */
+            height: 50px;
+            /* Висота кнопки */
+            background-color: #fff;
+            /* Колір фону */
+            color: #fff;
+            /* Колір тексту */
+            border: none;
+            /* Прибираємо рамку */
+            border-radius: 50%;
+            /* Робимо кнопку круглою */
+            cursor: pointer;
+            /* Курсор у вигляді руки */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            /* Тінь */
+            display: none;
+            /* Спочатку приховуємо кнопку */
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            /* Розмір іконки */
+            z-index: 1000;
+            /* Кнопка буде над іншими елементами */
+        }
+        
+        .scroll-to-top:hover {
+            background-color: #2980b9;
+            /* Темніший колір при наведенні */
+        }
+        
+        .info-box {
+            display: none;
+            position: absolute;
+            bottom: -40px;
+            /* Початкове положення за межами елемента */
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            width: 200px;
+            opacity: 0;
+            transition: bottom 0.3s ease, opacity 0.3s ease;
+            /* Плавне з'явлення */
+            font-size: 14px;
+            text-align: center;
+        }
+        /* Коли елемент під кнопкою буде активуватися */
+        
+        .color-item:hover .info-box {
+            display: block;
+            bottom: 40px;
+            /* Позиціюємо блок вище, коли він з'являється */
+            opacity: 1;
+            /* Повна видимість */
+        }
+        /* Кнопка "Kup za ..." */
+        
+        .add-to-cart {
+            padding: 12px 25px;
+            background-color: #0a0a0a;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 25px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .add-to-cart:hover {
+            background-color: #434343;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <ul class="menu">
+                    <li class="menu-item"><a href="index.html">Strona 1</a></li>
+                    <li class="menu-item"><a href="index2.html">Strona 2</a></li>
+                    <li class="menu-item"><a href="index3.html">Potwierdzenie</a></li>
+                    <li class="color-item">
+
+        </div>
+        </li>
+        </ul>
+
+        <!-- Кнопка кошика в правому верхньому куті -->
+        <div class="cart-button">
+            <button id="cart-button">🛒 Koszyk (<span id="cart-count">0</span>)</button>
+        </div>
+        </nav>
+        </div>
+    </header>
+
+
+    <section id="color" class="color">
+        <div class="container">
+            <h2 class="color-title">WYBIERZ SWÓJ PRODUKT</h2>
+            <ul class="color-list">
+                <li><button id="scrollToTop" class="scroll-to-top">
+                    <img src="images/icon3.png" alt="Повернутися вверх" />
+                  </button>
+                </li>
+                <li class="color-item">
+                    <img src="images/color-1.jpg" alt="Silver color">
+                    <h3>Silver</h3>
+                    <button class="add-to-cart" data-product="Silver" data-price="1100" data-image="images/color-1.jpg">Kup za $1100</button>
+                </li>
+                <li class="color-item">
+                    <img src="images/color-2.jpg" alt="Deep Purple color">
+                    <h3>Deep Purple</h3>
+                    <button class="add-to-cart" data-product="Deep Purple" data-price="1200" data-image="images/color-2.jpg">Kup za $1200</button>
+                </li>
+                <li class="color-item">
+                    <img src="images/color-3.jpg" alt="Gold color">
+                    <h3>Gold</h3>
+                    <button class="add-to-cart" data-product="Gold" data-price="1300" data-image="images/color-3.jpg">Kup za $1300</button>
+                </li>
+                <li class="color-item">
+                    <img src="images/color-4.jpg" alt="Space Black color">
+                    <h3>Space Black</h3>
+                    <button class="add-to-cart" data-product="Space Black" data-price="1400" data-image="images/color-4.jpg">Kup za $1400</button>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <div class="container1">
+        <h2 class="color-title1"></h2>
+        <ul class="color-list1">
+            <li class="color-item1">
+                <img src="images2/airpods-max3.jpg" alt="Silver color1">
+                <h3>Sluchawki AirPods Max</h3>
+                <button class="add-to-cart" data-product="AirPods Max" data-price="550" data-image="images2/airpods-max.jpg">Kup za $550</button>
+            </li>
+            <li class="color-item1">
+                <img src="images2/macbook-news3.jpg" alt="Gold color1">
+                <h3>MacBook Pro</h3>
+                <button class="add-to-cart" data-product="MacBook Pro" data-price="2199" data-image="images2/macbook-news2.jpg">Kup za $2199</button>
+            </li>
+            <li class="color-item1">
+                <img src="images2/mouse3.jpg" alt="Space Black color1">
+                <h3>Magic Mouse</h3>
+                <button class="add-to-cart" data-product="Magic Mouse" data-price="130" data-image="images2/mouse2.jpg">Kup za $130</button>
+            </li>
+        </ul>
+    </div>
+    </section>
+
+    <!-- Модальне вікно для кошика -->
+    <div id="cart" class="cart">
+        <h2>Koszyk</h2>
+        <ul id="cart-items" class="cart-items"></ul>
+        <!-- Підсумкова ціна -->
+        <p id="total-price">Total: $0.00</p>
+        <button id="clear-cart" class="clear-cart">Wyczyść Koszyk</button>
+    </div>
+
+    <!-- Фон для затемнення -->
+    <div id="overlay" class="overlay"></div>
+
+    <!-- Повідомлення про подяку -->
+    <div id="thank-you-message" class="thank-you-message">
+        Dziękujemy za zamówienie!
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-inner">
+                <a class="footer-link" href="#">Polityka Prywatności</a>
+                <a class="logo"><img class="logo-img" src="images/logo.svg" alt="Логотип сайту"></a>
+                <a href="tel:123456789" class="phone">+48-784-874-322</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const cartItems = document.getElementById("cart-items");
+            const addToCartButtons = document.querySelectorAll(".add-to-cart");
+            const cartCount = document.getElementById("cart-count");
+            const cartButton = document.getElementById("cart-button");
+            const clearCartButton = document.getElementById("clear-cart");
+            const overlay = document.getElementById("overlay");
+            const thankYouMessage = document.getElementById("thank-you-message");
+            const totalPriceElement = document.getElementById("total-price"); // Додаємо елемент для відображення підсумкової ціни
+
+            let itemCount = 0;
+            let totalPrice = 0; // Змінна для підсумкової ціни
+
+            addToCartButtons.forEach(button => {
+                button.addEventListener("click", function() {
+                    const productName = button.getAttribute("data-product");
+                    const productPrice = parseFloat(button.getAttribute("data-price"));
+                    const productImage = button.getAttribute("data-image");
+
+                    // Додаємо товар до кошика
+                    const cartItem = document.createElement("li");
+                    cartItem.innerHTML = `
+                        <img src="${productImage}" alt="${productName}" style="width: 30px; height: 30px; margin-right: 10px;">
+                        <span>${productName} - $${productPrice}</span>
+                    `;
+                    cartItems.appendChild(cartItem);
+
+                    itemCount++;
+                    cartCount.textContent = itemCount;
+
+                    // Оновлюємо підсумкову ціну
+                    totalPrice += productPrice;
+                    totalPriceElement.textContent = `Total: $${totalPrice.toFixed(2)}`;
+
+                    // Показуємо повідомлення
+                    thankYouMessage.classList.add("show-thank-you");
+
+                    setTimeout(function() {
+                        thankYouMessage.classList.remove("show-thank-you");
+                    }, 3000);
+                });
+            });
+
+            clearCartButton.addEventListener("click", function() {
+                cartItems.innerHTML = "";
+                itemCount = 0;
+                totalPrice = 0; // Скидаємо підсумкову ціну
+                cartCount.textContent = itemCount;
+                totalPriceElement.textContent = `Total: $0.00`; // Встановлюємо початкову суму
+                closeCart();
+            });
+
+            cartButton.addEventListener("click", function() {
+                const cart = document.getElementById("cart");
+                if (cart.style.display === "block") {
+                    closeCart();
+                } else {
+                    openCart();
+                }
+            });
+
+            function openCart() {
+                document.getElementById("cart").style.display = "block";
+                overlay.style.display = "block";
+            }
+
+            function closeCart() {
+                document.getElementById("cart").style.display = "none";
+                overlay.style.display = "none";
+            }
+
+            overlay.addEventListener("click", function() {
+                closeCart();
+            });
+        });
+
+        // Знаходимо кнопку
+        const scrollToTopButton = document.getElementById('scrollToTop');
+
+        // Відстежуємо прокручування сторінки
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 200) { // Якщо прокрутили більше 200px
+                scrollToTopButton.style.display = 'flex'; // Показуємо кнопку
+            } else {
+                scrollToTopButton.style.display = 'none'; // Ховаємо кнопку
+            }
+        });
+
+        // Обробляємо натискання на кнопку
+        scrollToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0, // Прокрутка до самого верху
+                behavior: 'smooth' // Плавна анімація
+            });
+        });
+    </script>
+</body>
+
+</html>
